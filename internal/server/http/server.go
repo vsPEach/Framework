@@ -1,15 +1,19 @@
 package internalhttp
 
-import "net/http"
+import (
+	"github.com/vsPEach/Framework/internal/server/http/routes"
+	"net/http"
+)
 
 type Server struct {
 	server http.Server
 }
 
 func NewServer() *Server {
+	r := routes.HTTPHandler{}
 	return &Server{server: http.Server{
 		Addr:    ":8085",
-		Handler: nil,
+		Handler: r.Routes(),
 	}}
 }
 

@@ -2,15 +2,17 @@ package entity
 
 import (
 	"github.com/google/uuid"
+	"reflect"
+	"strings"
 	"time"
 )
 
 type Comment struct {
-	ID        uuid.UUID
-	AuthorID  uuid.UUID
-	ArticleID uuid.UUID
-	Text      string
-	CreatedAt time.Time
+	ID        uuid.UUID `sqlx:"id"`
+	AuthorID  uuid.UUID `sqlx:"author_id"`
+	ArticleID uuid.UUID `sqlx:"article_id"`
+	Text      string    `sqlx:"text"`
+	CreatedAt time.Time `sqlx:"created_at"`
 }
 
 func (c Comment) GetID() uuid.UUID {
@@ -18,5 +20,5 @@ func (c Comment) GetID() uuid.UUID {
 }
 
 func (c Comment) GetTableName() string {
-	return "comments"
+	return strings.ToLower(reflect.ValueOf(c).Type().Name())
 }

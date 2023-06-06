@@ -2,7 +2,7 @@ package entity
 
 import "github.com/google/uuid"
 
-type Models interface {
+type Model interface {
 	GetTableName() string
 	GetID() uuid.UUID
 }

@@ -2,6 +2,8 @@ package entity
 
 import (
 	"github.com/google/uuid"
+	"reflect"
+	"strings"
 	"time"
 )
 
@@ -18,5 +20,5 @@ func (a Article) GetID() uuid.UUID {
 }
 
 func (a Article) GetTableName() string {
-	return "articles"
+	return strings.ToLower(reflect.ValueOf(a).Type().Name())
 }
