@@ -11,3 +11,8 @@ func ArticleToSlice(request string) (result []string) {
 	}
 	return
 }
+
+func CommentToString(str string) string {
+	cutset := strings.Trim(strings.Split(str, "=")[1], "+")
+	return strings.Replace(cutset, "+", " ", -1)
+}

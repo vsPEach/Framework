@@ -9,6 +9,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/vsPEach/Framework/internal/entity"
 	"github.com/vsPEach/Framework/pkg/utils"
+	"log"
 )
 
 type Model interface {
@@ -59,6 +60,7 @@ func (s *Storage) FindAll(ctx context.Context, model Model) ([]Model, error) {
 		for _, article := range obj {
 			result = append(result, article)
 		}
+		log.Println("DB GET:", result)
 		return result, err
 	}
 	return result, errors.New("type not supported")
@@ -66,6 +68,7 @@ func (s *Storage) FindAll(ctx context.Context, model Model) ([]Model, error) {
 
 func (s *Storage) Update(ctx context.Context, model Model) error {
 	query, args := utils.QueryUpdateBuilder(model)
+	log.Println(query, args)
 	_, err := s.connection.ExecContext(ctx, query, args...)
 	return err
 
@@ -74,7 +77,7 @@ func (s *Storage) Update(ctx context.Context, model Model) error {
 func (s *Storage) Delete(ctx context.Context, model Model) error {
 	_, err := s.connection.ExecContext(
 		ctx,
-		fmt.Sprintf("delete from %s where id=%s",
+		fmt.Sprintf("delete from %s where id='%s'",
 			model.GetTableName(),
 			model.GetID(),
 		))

@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
-</head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        a {
+            text-decoration: none;
+            color: green;
+        }
+        a:visited {
+            color:green;
+        }
+        ul {
+            list-style-type: none;
+        }
+        ul > div {
+            display: flex;
+            width: 300px;
+            align-items: center;
+        }
+        .delete {
+            border: 1px solid red;
+            color: darkred;
+            font-size: 14px;
+            margin-left: auto;
+            padding: 5px;
 
+        }
+    </style>
+</head>
 <body>
     <header>
         <h1 class="header__heading">My Blog</h1>
@@ -13,7 +40,7 @@
         <div class="menu">
             <h2>Menu</h2>
             <ul class="menu__list">
-                <li>Main page</li>
+                <li><a href="#">Main page</a></li>
                 <li><a href="//localhost:8085/articles/article">Create article</a></li>
                 <li><a href="//github.com/vsPEach">about me</a></li>
             </ul>
@@ -22,8 +49,10 @@
         <h2>{{.Title}}</h2>
         <ul>
             {{range .Data}}
-            <li><a href="//localhost:8085/articles/{{.ID}}"><h3>{{ .Title }}</h3></li>
-            <li><a href="//articles/article/delete/">delete</a></li>
+                <div>
+                    <li><a href="//localhost:8085/articles/{{.ID}}"><h3>{{ .Title }}</h3></a></li>
+                    <li class="articles__article delete"><a href="//localhost:8085/articles/delete/{{.ID}}">delete</a></li>
+                </div>
             {{end}}
         </ul>
     </main>

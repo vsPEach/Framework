@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS users(
     role integer,
     is_confirmed boolean,
     created_at TIMESTAMP,
-    user_id uuid
 );
 
 CREATE TABLE IF NOT EXISTS articles (

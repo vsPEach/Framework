@@ -9,16 +9,40 @@
       margin: 0;
       padding: 0;
     }
+    ul {
+      list-style-type: none;
+    }
+    li {
+      border: 1px solid green;
+    }
     .container {
       margin-left: 30px;
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>{{.Title}}</h1>
-  <p>{{.Text}}</p>
-  <p>create: {{.CreatedAt}}</p>
-</div>
+  <div class="container">
+    <h1>{{.Title}}</h1>
+    <p>{{.ArticleText}}</p>
+    <p>create: {{.CreatedAt}}</p>
+    <a href="//localhost:8085/articles/edit/{{.ArticleID}}">Edit</a>
+
+    <form method="post" action="//localhost:8085/comments/comment">
+      <input type="text" name="text" placeholder="text"/>
+      <button type="submit">Add comment</button>
+    </form>
+    <div>
+      <ul>
+        {{range .Comments}}
+          {{if ne .ArticleID .ID}}
+            <li>
+            <p><a href="//localhost:8085/comments/{{.ID}}">{{.Text}}</a></p>
+            <p>create date: {{.CreatedAt}}</p>
+           </li>
+          {{end}}
+        {{end}}
+      </ul>
+    </div>
+  </div>
 </body>
 </html>

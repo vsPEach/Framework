@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"github.com/google/uuid"
-	"log"
 	"reflect"
 	"strconv"
 	"strings"
@@ -17,7 +16,6 @@ type Model interface {
 }
 
 func parsingEntityQuery(model Model) ([]string, []interface{}) {
-	fmt.Println("model2:", model)
 	value := reflect.ValueOf(model)
 	typ := reflect.TypeOf(model)
 	var values []interface{}
@@ -39,7 +37,6 @@ func parsingEntityQuery(model Model) ([]string, []interface{}) {
 }
 
 func QueryInsertBuilder(model Model) (string, []interface{}) {
-	log.Println("model:", model)
 	columns, values := parsingEntityQuery(model)
 	var indexes []string
 	for i := range columns {
@@ -55,11 +52,10 @@ func QueryInsertBuilder(model Model) (string, []interface{}) {
 
 func QueryUpdateBuilder(model Model) (string, []interface{}) {
 	columns, values := parsingEntityQuery(model)
-	values = append(values, model.GetID())
 	sets := make([]string, 0, 10)
 	for i, column := range columns {
 		sets = append(sets, fmt.Sprintf("%s=$"+strconv.Itoa(i+1), column))
 	}
-	query := fmt.Sprintf("UPDATE users SET %s WHERE id = ?;", strings.Join(sets, ", "))
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = '%s';", model.GetTableName(), strings.Join(sets, ", "), model.GetID())
 	return query, values
 }
