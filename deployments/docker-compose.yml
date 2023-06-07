@@ -1,0 +1,22 @@
+services:
+  postgres:
+    container_name: "postgres"
+    image: bitnami/postgresql
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=framework
+
+  migrate:
+    container_name: "migrate"
+    image: migrate/migrate
+    depends_on:
+      - postgres
+    volumes:
+      - ../migrations:/migrations
+    command:
+      [ "-path", "/migrations", "-database", "postgres://postgres:postgres@postgres:5432/framework?sslmode=disable", "up" ]
+    restart: on-failure

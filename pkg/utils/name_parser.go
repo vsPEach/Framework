@@ -3,7 +3,9 @@ package utils
 import (
 	"fmt"
 	"github.com/google/uuid"
+	"log"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -15,6 +17,7 @@ type Model interface {
 }
 
 func parsingEntityQuery(model Model) ([]string, []interface{}) {
+	fmt.Println("model2:", model)
 	value := reflect.ValueOf(model)
 	typ := reflect.TypeOf(model)
 	var values []interface{}
@@ -36,11 +39,17 @@ func parsingEntityQuery(model Model) ([]string, []interface{}) {
 }
 
 func QueryInsertBuilder(model Model) (string, []interface{}) {
+	log.Println("model:", model)
 	columns, values := parsingEntityQuery(model)
+	var indexes []string
+	for i := range columns {
+		indexes = append(indexes, "$"+strconv.Itoa(i+1))
+	}
 	query := fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s);",
 		model.GetTableName(),
 		strings.Join(columns, ", "),
-		strings.TrimSuffix(strings.Repeat("?, ", len(values)), ", "))
+		strings.Join(indexes, ", "),
+	)
 	return query, values
 }
 
@@ -48,8 +57,8 @@ func QueryUpdateBuilder(model Model) (string, []interface{}) {
 	columns, values := parsingEntityQuery(model)
 	values = append(values, model.GetID())
 	sets := make([]string, 0, 10)
-	for _, column := range columns {
-		sets = append(sets, fmt.Sprintf("%s=?", column))
+	for i, column := range columns {
+		sets = append(sets, fmt.Sprintf("%s=$"+strconv.Itoa(i+1), column))
 	}
 	query := fmt.Sprintf("UPDATE users SET %s WHERE id = ?;", strings.Join(sets, ", "))
 	return query, values

@@ -7,12 +7,14 @@ import (
 	"time"
 )
 
+type Articles []Article
+
 type Article struct {
-	ID        uuid.UUID
-	AuthorID  uuid.UUID
-	Title     string
-	Text      string
-	CreatedAt time.Time
+	ID        uuid.UUID `sqlx:"id" db:"id"`
+	AuthorID  uuid.UUID `sqlx:"author_id" db:"author_id"`
+	Title     string    `sqlx:"title" db:"title"`
+	Text      string    `sqlx:"text" db:"text"`
+	CreatedAt time.Time `sqlx:"created_at" db:"created_at"`
 }
 
 func (a Article) GetID() uuid.UUID {
@@ -20,5 +22,5 @@ func (a Article) GetID() uuid.UUID {
 }
 
 func (a Article) GetTableName() string {
-	return strings.ToLower(reflect.ValueOf(a).Type().Name())
+	return strings.ToLower(reflect.ValueOf(a).Type().Name() + "s")
 }

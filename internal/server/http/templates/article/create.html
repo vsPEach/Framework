@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+       .container {
+           margin-left: 30px;
+       }
+
+        .form {
+            max-width: 1440px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        form > * {
+            width: 30%;
+            margin-bottom: 30px;
+        }
+        input {
+            padding: 15px;
+        }
+        textarea {
+            padding: 30px;
+        }
+
+        button {
+            padding: 20px 15px;
+            max-width: 20%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create article</h1>
+        <form method="post" action="//localhost:8085/articles/article" class="form">
+            <input type="text" name="title" placeholder="title">
+            <textarea name="text" placeholder="text">
+            </textarea>
+            <button type="submit">create</button>
+        </form>
+    </div>
+</body>
+</html>

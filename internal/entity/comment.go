@@ -20,5 +20,5 @@ func (c Comment) GetID() uuid.UUID {
 }
 
 func (c Comment) GetTableName() string {
-	return strings.ToLower(reflect.ValueOf(c).Type().Name())
+	return strings.ToLower(reflect.ValueOf(c).Type().Name() + "s")
 }
